@@ -22,6 +22,13 @@ Gemini 2.0 Flash thinking, which incorporates responsible AI principles, ensures
 
 The entire infrastructure is highly scalable and decoupled, deployed over Google Cloud to ensure reliability and performance. This setup allows EarthLens to handle large volumes of real-time data and provide accurate disaster predictions and route avoidance recommendations.
 
+
+### Sources
+
+Disasters Dataset: https://public.emdat.be/data
+
+Satellite Images: [Google Earth Engine](https://earthengine.google.com/) and [Sentinel-2](https://console.cloud.google.com/marketplace/product/esa-public-data/sentinel2)
+
 ## Features
 - Real-time highly scalable monitoring of distress calls and tweets, with priority re-ranking using responsible ai models provided by Google Gemini
 - Google NotebookLM RAG powered algorithm to analyze over 50 years of data from 3 satellites, weather, news from USA, disaster record to find parameter and indicators responsible for disaster
