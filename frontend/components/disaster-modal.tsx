@@ -88,11 +88,11 @@ export function DisasterModal({
       ? `$${(disaster.totalDamage / 1000).toLocaleString()}M`
       : 'unknown'
 
-    const prompt = `Generate a concise summary of a ${
+    const prompt = `Generate a interesting "Do you know" question about a ${
       disaster.disasterSubgroup
-    } disaster that occurred between ${startDate} and ${endDate} in ${location}. Include key details such as ${deaths} deaths, ${totalAffected} total affected individuals, and an economic impact of ${economicImpact}. Mention the probable cause (${
+    } disaster that happened between ${startDate} and ${endDate} in ${location}. Include cool facts like how many people were affected (${totalAffected}), how much money it cost (${economicImpact}), and how many lives were lost (${deaths}). Also, ask about the cause (${
       disaster.origin || 'unknown'
-    }), early warning indicators, and personal and general mitigation strategies for future safety. Do not mention magnitude.`
+    }) and any warning signs people might have missed. Don't mention the size or magnitude, just keep it interesting!`
     console.log('Prompt:', prompt)
     console.log('Disaster Data:', disaster)
     setShowAiSummary(true)
@@ -262,8 +262,14 @@ export function DisasterModal({
                             Generating insights...
                           </div>
                         ) : completion ? (
-                          <div className="prose prose-sm dark:prose-invert max-w-none">
-                            {completion}
+                          <div className="bg-card rounded-lg border p-4 shadow-sm">
+                            <div className="flex items-center gap-2 mb-3">
+                              <Sparkles className="h-4 w-4 text-blue-500" />
+                              <span className="font-medium">Did you know?</span>
+                            </div>
+                            <p className="text-muted-foreground leading-relaxed">
+                              {completion}
+                            </p>
                           </div>
                         ) : (
                           'No insights available yet'
@@ -295,7 +301,7 @@ export function DisasterModal({
           </div>
         </ScrollArea>
 
-        <DialogFooter className="sm:justify-start">
+        {/* <DialogFooter className="sm:justify-start">
           <Button
             variant="secondary"
             size="sm"
@@ -306,7 +312,7 @@ export function DisasterModal({
             <Sparkles className="h-4 w-4" />
             {isLoading ? 'Analysing...' : 'Understanding Past Disasters'}
           </Button>
-        </DialogFooter>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   )

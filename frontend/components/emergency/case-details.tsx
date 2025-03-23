@@ -14,8 +14,13 @@ import {
   Shield,
   Ambulance,
   FileText,
+  CheckCircle2,
+  XCircle,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { getFirestore, doc, updateDoc } from 'firebase/firestore'
+import { toast } from 'sonner'
 
 interface EmergencyTicket {
   ticket_id: string
@@ -73,6 +78,26 @@ export default function CaseDetails({ ticket }: CaseDetailsProps) {
     }
   }
 
+  const handleStatusUpdate = async (
+    newStatus: 'resolved' | 'active' | 'pending'
+  ) => {
+    if (!ticket) return
+
+    try {
+      const db = getFirestore()
+      const ticketRef = doc(db, 'tickets', ticket.ticket_id)
+
+      await updateDoc(ticketRef, {
+        status: newStatus,
+      })
+
+      toast.success(`Case marked as ${newStatus}`)
+    } catch (error) {
+      console.error('Error updating status:', error)
+      toast.error('Failed to update case status')
+    }
+  }
+
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 border-b">
@@ -90,22 +115,50 @@ export default function CaseDetails({ ticket }: CaseDetailsProps) {
             <p className="text-sm">{ticket.summary}</p>
           </div>
 
-          {/* badges */}
-          <div className="flex items-center gap-2">
-            <Badge
-              variant="outline"
-              className={getPriorityColor(ticket.priority)}
-            >
-              {ticket.priority.toUpperCase()} PRIORITY
-            </Badge>
-            {ticket.life_threatening && (
+          {/* Status and Priority */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-4 w-4 text-muted-foreground" />
+              <span className="font-medium">Status</span>
+            </div>
+            <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="bg-red-500/10 text-red-500 border-red-500/20"
+                className={getPriorityColor(ticket.priority)}
               >
-                LIFE THREATENING
+                {ticket.priority.toUpperCase()} PRIORITY
               </Badge>
-            )}
+              {ticket.life_threatening && (
+                <Badge
+                  variant="outline"
+                  className="bg-red-500/10 text-red-500 border-red-500/20"
+                >
+                  LIFE THREATENING
+                </Badge>
+              )}
+            </div>
+            <div className="flex gap-2 mt-2">
+              <Button
+                variant={ticket.status === 'resolved' ? 'default' : 'outline'}
+                size="sm"
+                className="flex items-center gap-1"
+                onClick={() => handleStatusUpdate('resolved')}
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                Resolved
+              </Button>
+              <Button
+                variant={
+                  ticket.status === 'pending' ? 'destructive' : 'outline'
+                }
+                size="sm"
+                className="flex items-center gap-1"
+                onClick={() => handleStatusUpdate('pending')}
+              >
+                <XCircle className="h-4 w-4" />
+                Unresolved
+              </Button>
+            </div>
           </div>
 
           {/* Basic Information */}
