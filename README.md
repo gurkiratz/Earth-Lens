@@ -2,6 +2,11 @@
 
 A real-time emergency response dashboard built with Next.js, Firebase, Google Maps and a lot of AI.
 
+## Try it out
+https://earth-lens.vercel.app
+
+[34.55.60.112](http://34.55.60.112:8000/)
+
 
 ## Inspiration
 The inspiration for EarthLens came from the frequent natural disasters (forest fires) experienced in Los Angeles, in past few months and the urgent need for sustainable climate change control. Witnessing the devastating impact of these events on communities, we aimed to create a tool that could help predict and mitigate disasters, ultimately saving lives and promoting long-term environmental sustainability.
