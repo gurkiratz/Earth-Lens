@@ -2,6 +2,12 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useJsApiLoader, GoogleMap, MarkerF } from '@react-google-maps/api'
+import {
+  GOOGLE_MAPS_CONFIG,
+  defaultMapOptions,
+  defaultCenter,
+  mapContainerStyle,
+} from '@/lib/google-maps'
 
 interface DisasterTweet {
   location: string
@@ -26,37 +32,8 @@ interface TweetMapProps {
   tweets: DisasterTweet[]
 }
 
-const mapContainerStyle = {
-  width: '100%',
-  height: '100%',
-  borderRadius: '0.375rem',
-}
-
-const defaultCenter = {
-  lat: 34.0522,
-  lng: -118.2437, // Los Angeles center
-}
-
-const mapOptions = {
-  styles: [
-    {
-      featureType: 'poi',
-      elementType: 'labels',
-      stylers: [{ visibility: 'off' }],
-    },
-  ],
-  disableDefaultUI: true,
-  zoomControl: true,
-  mapTypeControl: false,
-  streetViewControl: false,
-  rotateControl: false,
-  fullscreenControl: true,
-}
-
 export default function TweetMap({ selectedTweet, tweets }: TweetMapProps) {
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
-  })
+  const { isLoaded, loadError } = useJsApiLoader(GOOGLE_MAPS_CONFIG)
 
   const [map, setMap] = useState<google.maps.Map | null>(null)
   const [markers, setMarkers] = useState<google.maps.Marker[]>([])
@@ -103,7 +80,6 @@ export default function TweetMap({ selectedTweet, tweets }: TweetMapProps) {
         },
       })
 
-      // Add click listener
       marker.addListener('click', () => {
         if (infoWindow) {
           infoWindow.setContent(`
@@ -152,7 +128,7 @@ export default function TweetMap({ selectedTweet, tweets }: TweetMapProps) {
   return (
     <GoogleMap
       mapContainerStyle={mapContainerStyle}
-      options={mapOptions}
+      options={defaultMapOptions}
       onLoad={onLoad}
       onUnmount={onUnmount}
       zoom={10}

@@ -29,12 +29,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 
-// Add debug logging for Firebase config
-console.log('Firebase Project ID:', firebaseConfig.projectId)
-console.log('Firebase Auth Domain:', firebaseConfig.authDomain)
-console.log('Firebase API Key:', firebaseConfig.apiKey)
-console.log('Firebase App ID:', firebaseConfig.appId)
-
 interface EmergencyTicket {
   ticket_id: string
   name: string
