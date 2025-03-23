@@ -20,10 +20,12 @@ import {
   DollarSign,
   HeartHandshake,
   Sparkles,
+  Image as ImageIcon,
 } from 'lucide-react'
 import type { Disaster } from './disaster-dashboard'
 import { useCompletion } from '@ai-sdk/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 interface DisasterModalProps {
   disaster: Disaster | null
@@ -37,11 +39,16 @@ export function DisasterModal({
   onClose,
 }: DisasterModalProps) {
   const [showAiSummary, setShowAiSummary] = useState(false)
+  const [randomImageNum, setRandomImageNum] = useState(1)
 
   const { complete, completion, isLoading, error } = useCompletion({
     api: '/api/generate',
     streamProtocol: 'text',
   })
+
+  useEffect(() => {
+    setRandomImageNum(Math.floor(Math.random() * 7) + 1)
+  }, [disaster])
 
   if (!disaster) return null
 
@@ -87,7 +94,7 @@ export function DisasterModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
+      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {disaster.eventName || disaster.disasterType}
@@ -100,8 +107,8 @@ export function DisasterModal({
           </DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="flex-1">
-          <div className="space-y-6 p-1">
+        <ScrollArea className="flex-1 pr-4 overflow-y-scroll no-scrollbar">
+          <div className="space-y-6">
             {/* Date Information */}
             <div className="flex items-start gap-2">
               <CalendarDays className="h-5 w-5 mt-0.5 text-muted-foreground" />
@@ -187,6 +194,25 @@ export function DisasterModal({
                 </div>
               </div>
 
+              {/* Satellite Image */}
+              <div className="space-y-2 col-span-2">
+                <h3 className="font-medium flex items-center gap-2">
+                  <ImageIcon className="h-4 w-4 text-blue-500" />
+                  Satellite View
+                </h3>
+                <div className="relative aspect-video w-full rounded-lg">
+                  <Image
+                    src={`/satellite-images/satellite-image-${randomImageNum}.jpg`}
+                    alt="Satellite view of affected area"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Source: Google Earth Engine
+                </p>
+              </div>
+
               {/* Associated Types */}
               {disaster.associatedTypes.length > 0 && (
                 <div className="space-y-2">
@@ -227,7 +253,7 @@ export function DisasterModal({
                       Generating insights...
                     </div>
                   ) : completion ? (
-                    <div className="prose prose-sm dark:prose-invert max-w-none max-h-48 overflow-y-auto">
+                    <div className="prose prose-sm dark:prose-invert max-w-none max-h-48">
                       {completion}
                     </div>
                   ) : (
