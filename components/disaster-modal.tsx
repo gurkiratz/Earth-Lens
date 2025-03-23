@@ -4,9 +4,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   CalendarDays,
   MapPin,
@@ -17,8 +19,11 @@ import {
   Home,
   DollarSign,
   HeartHandshake,
+  Sparkles,
 } from 'lucide-react'
 import type { Disaster } from './disaster-dashboard'
+import { useCompletion } from '@ai-sdk/react'
+import { useState } from 'react'
 
 interface DisasterModalProps {
   disaster: Disaster | null
@@ -31,6 +36,13 @@ export function DisasterModal({
   isOpen,
   onClose,
 }: DisasterModalProps) {
+  const [showAiSummary, setShowAiSummary] = useState(false)
+
+  const { complete, completion, isLoading, error } = useCompletion({
+    api: '/api/generate',
+    streamProtocol: 'text',
+  })
+
   if (!disaster) return null
 
   const formatDate = (year: number, month: number, day: number) => {
@@ -53,6 +65,25 @@ export function DisasterModal({
     disaster.endMonth,
     disaster.endDay
   )
+
+  const handleGenerateInsights = async () => {
+    const location = disaster.location || disaster.country
+    const deaths = disaster.totalDeaths?.toLocaleString() || 0
+    const totalAffected = disaster.totalAffected?.toLocaleString() || 0
+    const economicImpact = disaster.totalDamage
+      ? `$${(disaster.totalDamage / 1000).toLocaleString()}M`
+      : 'unknown'
+
+    const prompt = `Generate a concise summary of a ${
+      disaster.disasterSubgroup
+    } disaster that occurred between ${startDate} and ${endDate} in ${location}. Include key details such as ${deaths} deaths, ${totalAffected} total affected individuals, and an economic impact of ${economicImpact}. Mention the probable cause (${
+      disaster.origin || 'unknown'
+    }), early warning indicators, and personal and general mitigation strategies for future safety. Do not mention magnitude.`
+    console.log('Prompt:', prompt)
+    console.log('Disaster Data:', disaster)
+    setShowAiSummary(true)
+    await complete(prompt)
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -170,8 +201,56 @@ export function DisasterModal({
                 </div>
               )}
             </div>
+
+            {/* AI Summary */}
+            {showAiSummary && (
+              <div className="space-y-2 border-t pt-4">
+                <h3 className="font-medium flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-blue-500" />
+                  AI Analysis & Insights
+                </h3>
+                <div className="text-sm text-muted-foreground">
+                  {/* {error ? (
+                    <div className="text-red-500">
+                      {error.message || 'An error occurred'}
+                    </div>
+                  ) : completion ? (
+                    <div className="whitespace-pre-wrap">{completion}</div>
+                  ) : (
+                    <div className="text-muted-foreground italic">
+                      No insights available yet
+                    </div>
+                  )} */}
+                  {isLoading ? (
+                    <div className="flex items-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent" />
+                      Generating insights...
+                    </div>
+                  ) : completion ? (
+                    <div className="prose prose-sm dark:prose-invert max-w-none max-h-48 overflow-y-auto">
+                      {completion}
+                    </div>
+                  ) : (
+                    'No insights available yet'
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </ScrollArea>
+
+        <DialogFooter className="sm:justify-start">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleGenerateInsights}
+            disabled={isLoading}
+            className="gap-2"
+          >
+            <Sparkles className="h-4 w-4" />
+            {isLoading ? 'Generating...' : 'Generate AI Summary'}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

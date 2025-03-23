@@ -137,6 +137,7 @@ export function DisasterMap({
     null
   )
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [completion, setCompletion] = useState<string | null>(null)
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([])
   const geocoder = useRef<google.maps.Geocoder | null>(null)
   const processedDisastersRef = useRef<Set<string>>(new Set())
@@ -369,7 +370,6 @@ export function DisasterMap({
         onLoad={onLoad}
         onUnmount={onUnmount}
       />
-
       <DisasterModal
         disaster={selectedDisaster}
         isOpen={isModalOpen}
