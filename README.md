@@ -1,6 +1,9 @@
-# Emergency Responder Dashboard
+# Earth Lens
 
 A real-time emergency response dashboard built with Next.js, Firebase, and Google Maps.
+
+<img width="1315" alt="image" src="https://github.com/user-attachments/assets/25dcb76f-cb5e-4db7-9944-4f48c2d218f3" />
+An image from NASA Satellite showing the heat map from 1981
 
 ## Features
 
