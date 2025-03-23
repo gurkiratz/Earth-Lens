@@ -377,6 +377,8 @@ export function DisasterMap({
           setIsModalOpen(false)
           setSelectedDisaster(null)
         }}
+        allDisasters={disasters}
+        selectedCategory={selectedCategory}
       />
     </div>
   )

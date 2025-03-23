@@ -21,22 +21,29 @@ import {
   HeartHandshake,
   Sparkles,
   Image as ImageIcon,
+  BarChart2,
 } from 'lucide-react'
 import type { Disaster } from './disaster-dashboard'
 import { useCompletion } from '@ai-sdk/react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import DisasterCharts from './disaster-charts'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface DisasterModalProps {
   disaster: Disaster | null
   isOpen: boolean
   onClose: () => void
+  allDisasters: Disaster[]
+  selectedCategory: string
 }
 
 export function DisasterModal({
   disaster,
   isOpen,
   onClose,
+  allDisasters,
+  selectedCategory,
 }: DisasterModalProps) {
   const [showAiSummary, setShowAiSummary] = useState(false)
   const [randomImageNum, setRandomImageNum] = useState(1)
@@ -94,7 +101,7 @@ export function DisasterModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
+      <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {disaster.eventName || disaster.disasterType}
@@ -228,40 +235,63 @@ export function DisasterModal({
               )}
             </div>
 
-            {/* AI Summary */}
-            {showAiSummary && (
-              <div className="space-y-2 border-t pt-4">
-                <h3 className="font-medium flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-blue-500" />
-                  AI Analysis & Insights
-                </h3>
-                <div className="text-sm text-muted-foreground">
-                  {/* {error ? (
-                    <div className="text-red-500">
-                      {error.message || 'An error occurred'}
+            {/* Tabs for AI Summary and Charts */}
+            <div className="space-y-4">
+              <Tabs defaultValue="ai" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="ai" className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    AI Analysis
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="charts"
+                    className="flex items-center gap-2"
+                  >
+                    <BarChart2 className="h-4 w-4" />
+                    Historical Data
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="ai">
+                  {showAiSummary ? (
+                    <div className="space-y-2">
+                      <div className="text-sm text-muted-foreground">
+                        {isLoading ? (
+                          <div className="flex items-center gap-2">
+                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent" />
+                            Generating insights...
+                          </div>
+                        ) : completion ? (
+                          <div className="prose prose-sm dark:prose-invert max-w-none">
+                            {completion}
+                          </div>
+                        ) : (
+                          'No insights available yet'
+                        )}
+                      </div>
                     </div>
-                  ) : completion ? (
-                    <div className="whitespace-pre-wrap">{completion}</div>
                   ) : (
-                    <div className="text-muted-foreground italic">
-                      No insights available yet
-                    </div>
-                  )} */}
-                  {isLoading ? (
-                    <div className="flex items-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent" />
-                      Generating insights...
-                    </div>
-                  ) : completion ? (
-                    <div className="prose prose-sm dark:prose-invert max-w-none max-h-48">
-                      {completion}
-                    </div>
-                  ) : (
-                    'No insights available yet'
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={handleGenerateInsights}
+                      disabled={isLoading}
+                      className="gap-2"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      {isLoading ? 'Analysing...' : 'Generate AI Analysis'}
+                    </Button>
                   )}
-                </div>
-              </div>
-            )}
+                </TabsContent>
+
+                <TabsContent value="charts">
+                  <DisasterCharts
+                    disasters={allDisasters}
+                    selectedCategory={selectedCategory}
+                  />
+                </TabsContent>
+              </Tabs>
+            </div>
           </div>
         </ScrollArea>
 
@@ -274,7 +304,7 @@ export function DisasterModal({
             className="gap-2"
           >
             <Sparkles className="h-4 w-4" />
-            {isLoading ? 'Generating...' : 'Generate AI Summary'}
+            {isLoading ? 'Analysing...' : 'Understanding Past Disasters'}
           </Button>
         </DialogFooter>
       </DialogContent>
