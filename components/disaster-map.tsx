@@ -4,10 +4,11 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
 import type { Disaster } from './disaster-dashboard'
 import { DisasterModal } from './disaster-modal'
+import { GOOGLE_MAPS_CONFIG } from '@/lib/google-maps'
 
 // This would normally come from an environment variable
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-
+const GOOGLE_MAPS_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID
 interface DisasterMapProps {
   disasters: Disaster[]
   selectedCategory: string
@@ -113,7 +114,7 @@ const mapOptions = {
   streetViewControl: false,
   rotateControl: false,
   fullscreenControl: true,
-  mapId: '3b1260c0fae821b7',
+  mapId: GOOGLE_MAPS_ID,
 }
 
 // Declare google variable
@@ -129,14 +130,7 @@ export function DisasterMap({
   onCategoryChange,
   categories,
 }: DisasterMapProps) {
-  const { isLoaded, loadError } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY!,
-    version: 'weekly',
-    language: 'en',
-    region: 'US',
-    libraries: ['marker', 'geocoding'],
-  })
+  const { isLoaded, loadError } = useJsApiLoader(GOOGLE_MAPS_CONFIG)
 
   const [map, setMap] = useState<google.maps.Map | null>(null)
   const [selectedDisaster, setSelectedDisaster] = useState<Disaster | null>(

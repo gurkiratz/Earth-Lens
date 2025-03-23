@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /tickets/{ticket} {
+      allow read: if true;  // For demo purposes, allow read access
+      allow write: if false; // Restrict write access to authenticated users/admins
+    }
+  }
+} 

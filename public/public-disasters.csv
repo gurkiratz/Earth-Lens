@@ -150,7 +150,6 @@ DisNo.,Disaster Subgroup,Disaster Type,Disaster Subtype,Event Name,ISO,Country,S
 2003-0387-IND,Hydrological,Flood,Riverine flood,,IND,India,Southern Asia,Asia,"Khavda, Banni, Natkharana, Lakhpat villages (Kachchh district, Gujarat province)",Monsoon rains,,,,Km2,,,2003,7,15,2003,9,1,13,,10000,4500,14500,
 2003-0413-USA,Meteorological,Storm,Tornado,,USA,United States of America,Northern America,Americas,Palm Beach district (Florida province),,,,,Kph,,,2003,8,8,2003,8,8,,,1500,,1500,
 2003-0417-CAN,Hydrological,Flood,Flash flood,,CAN,Canada,Northern America,Americas,"Bois-Franc municipality (La Vallée-de-la-Gatineau district, Quebec province)",Brief torrential rain,,,1990,Km2,,,2003,8,4,2003,8,5,,,400,,400,10000
-2003-0448-BMU,Meteorological,Storm,Tropical cyclone,Fabian,BMU,Bermuda,Northern America,Americas,,,Rain,,240,Kph,,,2003,9,5,2003,9,6,4,,,,,300000
 2003-0468-CAN,Meteorological,Storm,Tropical cyclone,Isabel,CAN,Canada,Northern America,Americas,Ontario province,,,,,Kph,,,2003,9,18,2003,9,18,,,,,,
 2003-0468-USA,Meteorological,Storm,Tropical cyclone,Isabel,USA,United States of America,Northern America,Americas,"North Carolina, Maryland, Virginia, West Virginia, Delaware, Pennsylvania, New Jersey, District of Columbia provinces",,Flood,,170,Kph,,,2003,9,18,2003,9,22,16,,225000,,225000,3370000
 2003-0487-CAN,Meteorological,Storm,Tropical cyclone,Juan,CAN,Canada,Northern America,Americas,"Nova Scotia, Prince Edward Island provinces",,Flood,,143,Kph,,,2003,9,28,2003,9,29,2,,200,,200,110000
