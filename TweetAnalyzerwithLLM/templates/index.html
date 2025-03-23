@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Tweet Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .media-preview {
+            max-width: 200px;
+            max-height: 150px;
+            object-fit: cover;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .selected-media {
+            border: 3px solid #0d6efd;
+        }
+        .media-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .media-item {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Disaster Tweet Analyzer</h1>
+        
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Upload Media</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Select image or video file:</label>
+                                <input class="form-control" type="file" id="file" name="file" accept=".png,.jpg,.jpeg,.gif,.mp4,.mov,.avi">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Submit Tweet</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url_for('process_tweet') }}" method="post">
+                            <div class="mb-3">
+                                <label for="tweet_text" class="form-label">Tweet Text:</label>
+                                <textarea class="form-control" id="tweet_text" name="tweet_text" rows="3" required></textarea>
+                            </div>
+                            <input type="hidden" id="selected_file" name="selected_file" value="">
+                            <button type="submit" class="btn btn-success">Process Tweet</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Uploaded Media</h3>
+            </div>
+            <div class="card-body">
+                {% if uploaded_files %}
+                <p>Click on a media item to attach it to your tweet:</p>
+                <div class="media-container">
+                    {% for file in uploaded_files %}
+                    <div class="media-item">
+                        {% if file.type == 'image' %}
+                        <img src="{{ url_for('static', filename='uploads/' + file.name) }}" class="media-preview" 
+                             onclick="selectMedia('{{ file.name }}', this)" data-name="{{ file.name }}">
+                        {% else %}
+                        <video class="media-preview" onclick="selectMedia('{{ file.name }}', this)" data-name="{{ file.name }}">
+                            <source src="{{ url_for('static', filename='uploads/' + file.name) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        {% endif %}
+                        <div>{{ file.name }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>No media files uploaded yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function selectMedia(filename, element) {
+            // Remove selected class from all elements
+            const previews = document.querySelectorAll('.media-preview');
+            previews.forEach(preview => preview.classList.remove('selected-media'));
+            
+            // Add selected class to clicked element
+            element.classList.add('selected-media');
+            
+            // Update hidden input with selected filename
+            document.getElementById('selected_file').value = filename;
+        }
+    </script>
+</body>
+</html>
