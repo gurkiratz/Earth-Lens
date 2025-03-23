@@ -209,7 +209,7 @@ export function DisasterModal({
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Source: Google Earth Engine
+                  Source: Google Earth Engine (NASA Daynet V4)
                 </p>
               </div>
 

@@ -36,6 +36,16 @@ export function Header() {
           >
             Real-time
           </Link>
+          <Link
+            href="/monitor"
+            className={`transition-colors ${
+              pathname === '/monitor'
+                ? 'text-primary font-medium'
+                : 'text-muted-foreground hover:text-primary'
+            }`}
+          >
+            Check Alerts
+          </Link>
         </nav>
       </div>
     </header>
