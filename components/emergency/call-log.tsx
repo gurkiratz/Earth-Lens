@@ -95,7 +95,7 @@ export default function CallLog({
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 border-b">
-        <h2 className="text-lg font-semibold">Call Log</h2>
+        <h2 className="text-lg font-semibold">Ticket Log</h2>
         <div className="flex gap-2 mt-2">
           <button
             onClick={() => setFilter('all')}

@@ -11,7 +11,7 @@ export function Header() {
       <div className="container flex items-center justify-between py-1">
         <Link
           href="/"
-          className="font-mono text-sm hover:text-primary transition-colors"
+          className="font-mono text-sm text-primary hover:text-primary/70 transition-colors"
         >
           earth-lens
         </Link>

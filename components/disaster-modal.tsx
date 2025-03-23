@@ -75,7 +75,7 @@ export function DisasterModal({
             <div className="flex items-start gap-2">
               <CalendarDays className="h-5 w-5 mt-0.5 text-muted-foreground" />
               <div>
-                <p className="font-medium">Duration</p>
+                <p className="font-medium">Date</p>
                 <p className="text-sm text-muted-foreground">
                   {startDate}{' '}
                   {endDate !== startDate &&
