@@ -1,6 +1,8 @@
 # Earth Lens
 
-A real-time emergency response dashboard built with Next.js, Firebase, Google Maps and a lot of AI.
+A real-time emergency response dashboard built with Next.js, Firebase, Google Maps and a lot of AI. 
+
+Winner of the United Nations & One Degree Cooler Best Climate Change & Sustainability AI Hack at GenAI Genesis 2025!
 
 ## Try it out
 https://earth-lens.vercel.app
