@@ -9,6 +9,12 @@ https://earth-lens.vercel.app
 
 [34.55.60.112](http://34.55.60.112:8000/)
 
+## Demo Video
+[![Earth Lens Demo Video](https://img.youtube.com/vi/zQcF-BcTun4/0.jpg)](https://www.youtube.com/watch?v=zQcF-BcTun4)
+
+## Screenshots
+![image](https://github.com/user-attachments/assets/92099328-9404-489f-b41e-aa5cfd597a6f)
+![image](https://github.com/user-attachments/assets/34fb9170-31bd-4e87-a991-9362872eb8ee)
 
 ## Inspiration
 The inspiration for EarthLens came from the frequent natural disasters (forest fires) experienced in Los Angeles, in past few months and the urgent need for sustainable climate change control. Witnessing the devastating impact of these events on communities, we aimed to create a tool that could help predict and mitigate disasters, ultimately saving lives and promoting long-term environmental sustainability.
