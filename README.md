@@ -9,6 +9,8 @@ https://earth-lens.vercel.app
 
 [34.55.60.112](http://34.55.60.112:8000/)
 
+[Devpost](https://devpost.com/software/disasterboard)
+
 ## Demo Video
 [![Earth Lens Demo Video](https://img.youtube.com/vi/zQcF-BcTun4/0.jpg)](https://www.youtube.com/watch?v=zQcF-BcTun4)
 
