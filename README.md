@@ -1,4 +1,8 @@
 # Earth Lens
+[![Hackathon Winner](https://img.shields.io/badge/Hackathon%20Winner-blue)](https://devpost.com/software/disasterboard)
+[![Best Sustainability AI Hack](https://img.shields.io/badge/Best%20Sustainability%20AI%20Hack-orange)](https://devpost.com/software/disasterboard)
+[![Google Cloud](https://img.shields.io/badge/Google%20Cloud-%234285F4.svg?logo=google-cloud&logoColor=white)](#)
+[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-886FBF?logo=googlegemini&logoColor=fff)](#)
 
 A real-time emergency response dashboard built with Next.js, Firebase, Google Maps and a lot of AI. 
 
